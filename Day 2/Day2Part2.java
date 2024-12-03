@@ -12,18 +12,7 @@ public class Day2Part2 {
         for (String s : fileData){
             String[] splitSample = s.split(" ");
             ArrayList<Integer> nums = convertToInt(splitSample);
-            int removeIndex = -1;
-            while (removeIndex != nums.size()){
-                ArrayList<Integer> nums2 = new ArrayList<>();
-                for (int i = 0; i < nums.size(); i++){
-                    if (i != removeIndex) nums2.add(nums.get(i));
-                }
-                if (checkSafe(nums2)){
-                    count++;
-                    break;
-                }
-                removeIndex++;
-            }
+            if (checkSafe(nums)) count++;
         }
         System.out.println();
         System.out.println(count);
@@ -38,9 +27,19 @@ public class Day2Part2 {
     }
 
     public static boolean checkSafe(ArrayList<Integer> nums){
-        ArrayList<Integer> diffs = findDiffs(nums);
-        if (!checkConsistency(diffs)) return false;
-        return checkDiffs(diffs);
+        int removeIndex = -1;
+        while (removeIndex != nums.size()){
+            ArrayList<Integer> nums2 = new ArrayList<>();
+            for (int i = 0; i < nums.size(); i++){
+                if (i != removeIndex) nums2.add(nums.get(i));
+            }
+            ArrayList<Integer> diffs = findDiffs(nums2);
+            if (checkConsistency(diffs) && checkDiffs(diffs)){
+                return true;
+            }
+            removeIndex++;
+        }
+        return false;
     }
 
     public static boolean checkPositive(ArrayList<Integer> diffs){

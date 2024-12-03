@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Day2Part2 {
     public static void main(String[] args) {
-        ArrayList<String> fileData = getFileData("src/input.txt");
+        ArrayList<String> fileData = getFileData("trasnfer-main/src/input.txt");
         int count = 0;
         for (String s : fileData){
             String[] splitSample = s.split(" ");
@@ -39,7 +39,7 @@ public class Day2Part2 {
 
     public static boolean checkSafe(ArrayList<Integer> nums){
         ArrayList<Integer> diffs = findDiffs(nums);
-        if (!checkPositive(diffs) && !checkNegative(diffs)) return false;
+        if (!checkConsistency(diffs)) return false;
         return checkDiffs(diffs);
     }
 
@@ -55,6 +55,10 @@ public class Day2Part2 {
             if (diff >= 0) return false;
         }
         return true;
+    }
+
+    public static boolean checkConsistency(ArrayList<Integer> diffs){
+        return checkNegative(diffs) || checkPositive(diffs);
     }
 
     public static boolean checkDiffs(ArrayList<Integer> diffs){

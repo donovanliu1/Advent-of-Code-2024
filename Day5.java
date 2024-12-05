@@ -1,12 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day5 {
     public static void main(String[] args) {
-        ArrayList<String> rulesArray = getFileData("src/input.txt");
-        ArrayList<String> updatesArray = getFileData("src/input2.txt");
+        ArrayList<String> rulesArray = getFileData("input.txt");
+        ArrayList<String> updatesArray = getFileData("input2.txt");
 
         ArrayList<String[]> rules = new ArrayList<>();
         ArrayList<String[]> updates = new ArrayList<>();
@@ -46,15 +47,15 @@ public class Day5 {
 
     public static int doPartTwo(ArrayList<String[]> rulesArray, ArrayList<String[]> updateArray){
         int total = 0;
-        for (int i = 0; i < updateArray.size(); i++){
-            int[] tempArray = new int[updateArray.get(i).length];
-            for (int j = 0; j < updateArray.get(i).length - 1; j++){
+        ArrayList<String[]> goatArray = findInvalids(rulesArray, updateArray);
+        for (int i = 0; i < goatArray.size(); i++){
+            int[] tempArray = new int[goatArray.get(i).length];
+            for (int j = 0; j < goatArray.get(i).length; j++){
                 int count = 0;
-                int leftNum = Integer.parseInt(updateArray.get(i)[j]);
-                for (int k = j + 1; k < updateArray.get(i).length; k++){
-                    int rightNum = Integer.parseInt(updateArray.get(i)[k]);
+                int leftNum = Integer.parseInt(goatArray.get(i)[j]);
+                for (int k = 0; k < goatArray.get(i).length; k++){
+                    int rightNum = Integer.parseInt(goatArray.get(i)[k]);
                     for (int l = 0; l < rulesArray.size(); l++){
-                        System.out.print(rulesArray.get(l));
                         int leftRule = Integer.parseInt(rulesArray.get(l)[0]);
                         int rightRule = Integer.parseInt(rulesArray.get(l)[1]);
                         if (leftRule == leftNum && rightRule == rightNum) count++;
@@ -62,15 +63,31 @@ public class Day5 {
                 }
                 tempArray[tempArray.length - count - 1] = leftNum;
             }
-            System.out.println(updateArray.get(i));
-            System.out.println(tempArray);
             total += tempArray[tempArray.length / 2];
         }
         return total;
     }
 
     public static ArrayList<String[]> findInvalids(ArrayList<String[]> rulesArray, ArrayList<String[]> updateArray){
-        
+        ArrayList<String[]> newArray = new ArrayList<>();
+        for (int i = 0; i < updateArray.size(); i++){
+            int count = 0;
+            int countMax = factorial(updateArray.get(i).length - 1);
+            for (int j = 0; j < updateArray.get(i).length - 1; j++){
+                int leftNum = Integer.parseInt(updateArray.get(i)[j]);
+                for (int k = j + 1; k < updateArray.get(i).length; k++){
+                    int rightNum = Integer.parseInt(updateArray.get(i)[k]);
+                    for (int l = 0; l < rulesArray.size(); l++){
+                        int leftRule = Integer.parseInt(rulesArray.get(l)[0]);
+                        int rightRule = Integer.parseInt(rulesArray.get(l)[1]);
+                        if (leftRule == leftNum && rightRule == rightNum) count++;
+                    }
+                }
+
+            }
+            if (count != countMax) newArray.add(updateArray.get(i));
+        }
+        return newArray;
     }
 
     public static int factorial(int num){

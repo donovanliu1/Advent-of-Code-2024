@@ -20,6 +20,7 @@ public class Day5 {
         }
 
         System.out.println("Part 1: " + doPartOne(rules, updates));
+        System.out.println("Part 2: " + doPartTwo(rules, updates));
     }
 
     public static int doPartOne(ArrayList<String[]> rulesArray, ArrayList<String[]> updateArray){
@@ -27,7 +28,6 @@ public class Day5 {
         for (int i = 0; i < updateArray.size(); i++){
             int count = 0;
             int countMax = factorial(updateArray.get(i).length - 1);
-            System.out.println(countMax);
             for (int j = 0; j < updateArray.get(i).length - 1; j++){
                 int leftNum = Integer.parseInt(updateArray.get(i)[j]);
                 for (int k = j + 1; k < updateArray.get(i).length; k++){
@@ -42,6 +42,35 @@ public class Day5 {
             }
         }
         return total;
+    }
+
+    public static int doPartTwo(ArrayList<String[]> rulesArray, ArrayList<String[]> updateArray){
+        int total = 0;
+        for (int i = 0; i < updateArray.size(); i++){
+            int[] tempArray = new int[updateArray.get(i).length];
+            for (int j = 0; j < updateArray.get(i).length - 1; j++){
+                int count = 0;
+                int leftNum = Integer.parseInt(updateArray.get(i)[j]);
+                for (int k = j + 1; k < updateArray.get(i).length; k++){
+                    int rightNum = Integer.parseInt(updateArray.get(i)[k]);
+                    for (int l = 0; l < rulesArray.size(); l++){
+                        System.out.print(rulesArray.get(l));
+                        int leftRule = Integer.parseInt(rulesArray.get(l)[0]);
+                        int rightRule = Integer.parseInt(rulesArray.get(l)[1]);
+                        if (leftRule == leftNum && rightRule == rightNum) count++;
+                    }
+                }
+                tempArray[tempArray.length - count - 1] = leftNum;
+            }
+            System.out.println(updateArray.get(i));
+            System.out.println(tempArray);
+            total += tempArray[tempArray.length / 2];
+        }
+        return total;
+    }
+
+    public static ArrayList<String[]> findInvalids(ArrayList<String[]> rulesArray, ArrayList<String[]> updateArray){
+        
     }
 
     public static int factorial(int num){

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day4 {
     public static void main(String[] args) {
-        ArrayList<String> fileData = getFileData("src/input.txt");
+        ArrayList<String> fileData = getFileData("trasnfer-main/src/input.txt");
 
         int rows = fileData.size();
         int columns = fileData.get(0).length();
@@ -18,6 +18,7 @@ public class Day4 {
         }
 
         System.out.println("Part 1: " + doPartOne(grid));
+        System.out.println("Part 2: " + doPartTwo(grid));
     }
 
     public static int doPartOne(String[][] grid){
@@ -33,55 +34,43 @@ public class Day4 {
         return count;
     }
 
+    public static int doPartTwo(String[][] grid){
+        int count = 0;
+        for (int r = 0; r < grid.length - 2; r++){
+            for (int c = 0; c < grid.length - 2; c++){
+                String phrase = grid[r][c] + grid[r+1][c+1] + grid[r+2][c+2];
+                String phrase2 = grid[r+2][c] + grid[r+1][c+1] + grid[r][c+2];
+                if ((phrase.equals("MAS") || phrase.equals("SAM")) && (phrase2.equals("MAS") || phrase2.equals("SAM"))) count++;
+            }
+        }
+        return count;
+    }
+
     public static boolean checkDown(String[][] grid, int r, int c){
         String phrase = grid[r][c] + grid[r+1][c] + grid[r+2][c] + grid[r+3][c];
-        if (phrase.equals("XMAS")){
-            System.out.println("down: " + phrase);
-            return true;
-        }
-        if (phrase.equals("SAMX")){
-            System.out.println("down: " + phrase);
-            return true;
-        }
+        if (phrase.equals("XMAS")) return true;
+        if (phrase.equals("SAMX")) return true;
         return false;
     }
 
     public static boolean checkRight(String[][] grid, int r, int c){
         String phrase = grid[r][c] + grid[r][c+1] + grid[r][c+2] + grid[r][c+3];
-        if (phrase.equals("XMAS")){
-            System.out.println("righ: " + phrase);
-            return true;
-        }
-        if (phrase.equals("SAMX")){
-            System.out.println("righ: " + phrase);
-            return true;
-        }
+        if (phrase.equals("XMAS")) return true;
+        if (phrase.equals("SAMX")) return true;
         return false;
     }
 
     public static boolean checkRightDiag(String[][] grid, int r, int c){
         String phrase = grid[r][c] + grid[r+1][c+1] + grid[r+2][c+2] + grid[r+3][c+3];
-        if (phrase.equals("XMAS")){
-            System.out.println("ridg: " + phrase);
-            return true;
-        }
-        if (phrase.equals("SAMX")){
-            System.out.println("ridg: " + phrase);
-            return true;
-        }
+        if (phrase.equals("XMAS")) return true;
+        if (phrase.equals("SAMX")) return true;
         return false;
     }
 
     public static boolean checkLeftDiag(String[][] grid, int r, int c){
         String phrase = grid[r][c] + grid[r+1][c-1] + grid[r+2][c-2] + grid[r+3][c-3];
-        if (phrase.equals("XMAS")){
-            System.out.println("lfdg: " + phrase);
-            return true;
-        }
-        if (phrase.equals("SAMX")){
-            System.out.println("lfdg: " + phrase);
-            return true;
-        }
+        if (phrase.equals("XMAS")) return true;
+        if (phrase.equals("SAMX")) return true;
         return false;
     }
 

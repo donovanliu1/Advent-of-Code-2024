@@ -10,9 +10,8 @@ import java.util.ArrayList;
 
 public class Day6 {
     public static void main(String[] args) {
-        String fileName = "smallinput.txt";
+        String fileName = "input.txt";
         ArrayList<String> fileData = getFileData(fileName);
-//        ArrayList<String> allMatches = new ArrayList<String>();
         ArrayList<String[]> map = new ArrayList<>();
         for (String data : fileData){
             map.add(data.split(""));
@@ -56,7 +55,6 @@ public class Day6 {
 
     public static int doPartTwo(ArrayList<String[]> map){
         int count = 0;
-        int[] position = findPosition(map);
         ArrayList<String[]> markedMap = markMap(map);
 
         for (int r = 0; r < map.size(); r++){
@@ -64,6 +62,7 @@ public class Day6 {
                 if (markedMap.get(c)[r].equals("X")){
                     markedMap.get(c)[r] = "#";
                     if (checkLoop(markedMap)) count++;
+                    markedMap.get(c)[r] = "X";
                 }
             }
         }
@@ -121,66 +120,6 @@ public class Day6 {
         return map;
     }
     
-    public static boolean checkLoop(ArrayList<String[]> map, int[] position, int direction){
-        int x = position[0];
-        int y = position[1];
-        ArrayList<int[]> lastObstacles = new ArrayList<>(); // used to track obstacle locations
-        int[] up = new int[]{x, y-1};
-        int[] right = new int[]{x+1, y};
-        int[] down = new int[]{x, y+1};
-        int[] left = new int[]{x-1, y};
-
-        int[] tempPosition = new int[]{x, y};
-
-
-        // loops while the temporary position is still within bounds and if it's not stuck in a loop
-        while (!checkLeave(map, tempPosition)){
-//            System.out.println(direction + Arrays.toString(position));
-
-            if (checkObstacle(map, tempPosition, direction)){
-                // ok so basically move this entire section outside the if statement because it doesn't fit here
-                // nvm i lied
-                int[] newObstacle; // position holder for the obstacle in the way
-                if (direction == 0) newObstacle = up; // assigns the associated position to newObstacle
-                else if (direction == 90) newObstacle = right;
-                else if (direction == 180) newObstacle = down;
-                else if (direction == 270) newObstacle = left;
-                else newObstacle = up; // should never ever reach this
-                for (int[] obstacle : lastObstacles){ // checks if this obstacle has already been reached
-                    if (newObstacle[0] == obstacle[0] && newObstacle[1] == obstacle[1]){
-                        System.out.println(Arrays.toString(newObstacle) + Arrays.toString(obstacle));
-                        return true;
-                    }
-                }
-                if (!map.get(tempPosition[1])[0].equals("X")) map.get(tempPosition[1])[0] = "X";
-//                if (inLoop) map = resetMap("smallinput.txt");
-//                lastObstacles.add(newObstacle); // adds the new obstacle position to previous reached obstacles
-
-                direction += 90; // updates direction as there is an obstacle in the way
-                direction %= 360;
-            }
-            else{ // updates the temporary position depending on direction faced
-                if (direction == 0) tempPosition[1]--; // updates position correspondingly
-                else if (direction == 90) tempPosition[0]++;
-                else if (direction == 180) tempPosition[1]++;
-                else if (direction == 270) tempPosition[0]--;
-            }
-        }
-//        for (String[] s : map){
-//            System.out.println(Arrays.toString(s));
-//        }
-
-        return false;
-    }
-
-    public static ArrayList<String[]> resetMap(String fileName){
-        ArrayList<String> fileData = getFileData(fileName);
-        ArrayList<String[]> map = new ArrayList<>();
-        for (String data : fileData) map.add(data.split(""));
-        return map;
-    }
-
-
     public static int[] findPosition(ArrayList<String[]> map){
         for (int r = 0; r < map.size(); r++){
             for (int c = 0; c < map.get(0).length; c++){
@@ -192,8 +131,6 @@ public class Day6 {
         }
         return new int[]{0, 0};
     }
-
-
 
     public static boolean checkObstacle(ArrayList<String[]> map, int[] position, int direction){
         int x = position[0];

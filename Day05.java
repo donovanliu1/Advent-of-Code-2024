@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Day5 {
+public class Day05 {
     public static void main(String[] args) {
         ArrayList<String> rulesArray = getFileData("input.txt");
         ArrayList<String> updatesArray = getFileData("input2.txt");

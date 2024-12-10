@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.ArrayList;
 
 
-public class Day6 {
+public class Day06 {
     public static void main(String[] args) {
         String fileName = "input.txt";
         ArrayList<String> fileData = getFileData(fileName);

@@ -30,6 +30,7 @@ public class Day07 {
     }
 
     // combinations of operations
+    // for loop range: list size * 2
 
 
     public static boolean checkCalibration(String testValue, String[] calibrationNums){

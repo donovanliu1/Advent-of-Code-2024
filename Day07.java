@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.ArrayList;
 
 
-public class Day7 {
+public class Day07 {
     public static void main(String[] args) {
         ArrayList<String> fileData = getFileData("input.txt");
 
@@ -29,6 +29,9 @@ public class Day7 {
         return sum;
     }
 
+    // combinations of operations
+
+
     public static boolean checkCalibration(String testValue, String[] calibrationNums){
         int tVal = Integer.parseInt(testValue);
         int[] cNums = new int[calibrationNums.length];
@@ -41,9 +44,9 @@ public class Day7 {
         return false;
     }
 
-    public static boolean checkNums(int testValue, int[] calilbrationNums, int position, int currentNum){
+    public static boolean checkNums(int testValue, int[] calilbrationNums, int position, int currentNum, ArrayList<Integer> calibrationResults){
         if (position < 0) return testValue == currentNum;
-        
+
         return false;
     }
 

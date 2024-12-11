@@ -3,8 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class StarterCode
-{
+public class StarterCode{
     public static void main(String[] args){
         ArrayList<String> fileData = getFileData("input.txt");
 

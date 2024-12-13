@@ -13,13 +13,54 @@ public class Day09
     }
 
     public static int doPartOne(ArrayList<String> fileData){
-        int count = 0;
-        return count;
+        String data = fileData.getFirst();
+        ArrayList<String> blocks = getBlocks(data);
+        moveBlocks(blocks);
+        return calculateCheckSum(blocks);
     }
-    
+
     public static int doPartTwo(ArrayList<String> fileData){
         int count = 0;
         return count;
+    }
+
+    public static ArrayList<String> getBlocks(String data){
+        ArrayList<String> blocks = new ArrayList<>();
+        int id = 0;
+        for (int i = 0; i < data.length(); i++){
+            if (i % 2 == 0){
+                for (int j = 0; j < Integer.parseInt(data.substring(i,i+1)); j++){
+                    blocks.add(String.valueOf(id));
+                }
+                id++;
+            }
+            else for (int j = 0; j < Integer.parseInt(data.substring(i,i+1)); j++) blocks.add(".");
+        }
+//        System.out.println(blocks);
+        return blocks;
+    }
+    public static void moveBlocks(ArrayList<String> blocks){
+        for (int i = blocks.size() - 1; i >= 0; i--){
+            String current = blocks.get(i);
+            if (current.equals(".")) continue;
+            else{
+                for (int j = 0; j < blocks.size(); j++){
+                    if (blocks.get(j).equals(".")){
+                        blocks.set(j, current);
+                        blocks.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public static int calculateCheckSum(ArrayList<String> blocks){
+        int checkSum = 0;
+        for (int i = 0; i < blocks.size(); i++){
+            int id = Integer.parseInt(blocks.get(i));
+            checkSum += id * i;
+        }
+        return checkSum;
     }
 
     public static ArrayList<String> getFileData(String fileName) {

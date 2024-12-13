@@ -6,13 +6,13 @@ import java.util.Scanner;
 public class Day09
 {
     public static void main(String[] args){
-        ArrayList<String> fileData = getFileData("input.txt");
+        ArrayList<String> fileData = getFileData("smallinput.txt");
 
         System.out.println("Part 1: " + doPartOne(fileData));
         System.out.println("Part 2: " + doPartTwo(fileData));
     }
 
-    public static int doPartOne(ArrayList<String> fileData){
+    public static long doPartOne(ArrayList<String> fileData){
         String data = fileData.getFirst();
         ArrayList<String> blocks = getBlocks(data);
         moveBlocks(blocks);
@@ -54,10 +54,10 @@ public class Day09
             }
         }
     }
-    public static int calculateCheckSum(ArrayList<String> blocks){
-        int checkSum = 0;
-        for (int i = 0; i < blocks.size(); i++){
-            int id = Integer.parseInt(blocks.get(i));
+    public static long calculateCheckSum(ArrayList<String> blocks){
+        long checkSum = 0;
+        for (long i = 0; i < blocks.size(); i++){
+            long id = Long.parseLong(blocks.get((int) i));
             checkSum += id * i;
         }
         return checkSum;

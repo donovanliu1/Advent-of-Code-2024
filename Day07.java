@@ -6,30 +6,35 @@ import java.util.ArrayList;
 
 public class Day07 {
     public static void main(String[] args) {
-        ArrayList<String> fileData = getFileData("input.txt");
+        ArrayList<String> fileData = getFileData("src/input.txt");
 
         System.out.println("Part 1: " + doPartOne(fileData));
     }
 
-    public static int doPartOne(ArrayList<String> fileData){
-        int sum = 0;
+    public static long doPartOne(ArrayList<String> fileData){
+        long sum = 0;
 
         ArrayList<String> testValues = new ArrayList<>();
         ArrayList<String[]> calibrationNums = new ArrayList<>();
-//        for (String data :fileData) {
-//            String[] split = data.split(":");
-//            testValues.add(split[0]);
-//            calibrationNums.add(split[1].substring(1).split(" "));
-//        }
-        checkCalibration("190", new String[]{"19", "10", "123", "123"});
+        for (String data : fileData) {
+            String[] split = data.split(":");
+            testValues.add(split[0]);
+            calibrationNums.add(split[1].substring(1).split(" "));
+        }
+
+        for (int i = 0; i < testValues.size(); i++){
+            if (checkCalibration(testValues.get(i), calibrationNums.get(i))) sum += Long.parseLong(testValues.get(i));
+        }
         return sum;
     }
 
-    // combinations of operations
-    // for loop range: list size * 2
+    public static long doPartTwo(ArrayList<String> fileData){
+        long sum = 0;
+        return sum;
+    }
 
     public static boolean checkCalibration(String testValue, String[] calibrationNums){
-        int tVal = Integer.parseInt(testValue);
+        long tVal = Long.parseLong(testValue);
         int[] cNums = new int[calibrationNums.length];
         for (int i = 0; i < calibrationNums.length; i++){
             cNums[i] = Integer.parseInt(calibrationNums[i]);
@@ -41,7 +46,14 @@ public class Day07 {
             binaries.add(binary);
         }
         ArrayList<ArrayList<String>> combinations = getCombinations(binaries);
-        System.out.println(combinations);
+        for (ArrayList<String> combination : combinations){
+            long total = cNums[0];
+            for (int i = 0; i < combination.size(); i++){
+                if (combination.get(i).equals("+")) total += cNums[i+1];
+                else if (combination.get(i).equals("*")) total *= cNums[i+1];
+            }
+            if (total == tVal) return true;
+        }
         return false;
     }
 
@@ -57,35 +69,12 @@ public class Day07 {
             return;
         }
         String[] currentBinary = binaries.get(index);
-//        ArrayList<String> currentBinary = binaries.get(index);
         for (String binary : currentBinary){
             current.add(binary);
             getCombinationsHelper(binaries, index+1, current, result);
             current.removeLast();
         }
     }
-
-//    public static boolean checkNums(int testValue, int[] calilbrationNums, int position, int currentNum, ArrayList<Integer> calibrationResults){
-//        if (position < 0) return testValue == currentNum;
-//
-//        return false;
-//    }
-//
-////    public static String[] getCombinations (int[] calibrationNums){
-////        int combinationSize = calibrationNums.length - 1;
-////        int arraySize = (int) Math.pow(2, combinationSize);
-////        String[] combinations = new String[combinationSize];
-////        for (int i = 0; i < combinations.length; i++){
-////            String combination = "";
-////            for (int j = 0; j < )
-////        }
-////    }
-//
-//    public static String getCombinations(ArrayList<String> combinations, int[] calibrationNums, int position, boolean binary){
-//        if (position < calibrationNums.length){
-//            if (binary) return "+" + getCombination(combinations, calibrationNums, position + 1, )
-//        }
-//    }
 
     public static ArrayList<String> getFileData(String fileName) {
         ArrayList<String> fileData = new ArrayList<String>();

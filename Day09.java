@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Day09
 {
     public static void main(String[] args){
-        ArrayList<String> fileData = getFileData("smallinput.txt");
+        ArrayList<String> fileData = getFileData("input.txt");
 
         System.out.println("Part 1: " + doPartOne(fileData));
         System.out.println("Part 2: " + doPartTwo(fileData));
@@ -36,15 +36,13 @@ public class Day09
             }
             else for (int j = 0; j < Integer.parseInt(data.substring(i,i+1)); j++) blocks.add(".");
         }
-//        System.out.println(blocks);
         return blocks;
     }
     public static void moveBlocks(ArrayList<String> blocks){
         for (int i = blocks.size() - 1; i >= 0; i--){
             String current = blocks.get(i);
-            if (current.equals(".")) continue;
-            else{
-                for (int j = 0; j < blocks.size(); j++){
+            if (!current.equals(".")){
+                for (int j = 0; j < i; j++){
                     if (blocks.get(j).equals(".")){
                         blocks.set(j, current);
                         blocks.remove(i);
@@ -56,9 +54,11 @@ public class Day09
     }
     public static long calculateCheckSum(ArrayList<String> blocks){
         long checkSum = 0;
-        for (long i = 0; i < blocks.size(); i++){
-            long id = Long.parseLong(blocks.get((int) i));
-            checkSum += id * i;
+        for (int i = 0; i < blocks.size(); i++){
+            if (!blocks.get(i).equals(".")){
+                int id = Integer.parseInt(blocks.get(i));
+                checkSum += (id * i);
+            }
         }
         return checkSum;
     }

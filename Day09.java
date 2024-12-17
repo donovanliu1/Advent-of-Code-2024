@@ -3,10 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Day09
-{
+public class Day09{
     public static void main(String[] args){
-        ArrayList<String> fileData = getFileData("input.txt");
+        ArrayList<String> fileData = getFileData("src/input.txt");
 
         System.out.println("Part 1: " + doPartOne(fileData));
         System.out.println("Part 2: " + doPartTwo(fileData));
@@ -19,9 +18,12 @@ public class Day09
         return calculateCheckSum(blocks);
     }
 
-    public static int doPartTwo(ArrayList<String> fileData){
-        int count = 0;
-        return count;
+    public static long doPartTwo(ArrayList<String> fileData){
+        String data = fileData.getFirst();
+        ArrayList<String> blocks = getBlocks(data);
+        moveBlocksPartTwo(blocks);
+        System.out.println(blocks);
+        return calculateCheckSum(blocks);
     }
 
     public static ArrayList<String> getBlocks(String data){
@@ -38,6 +40,7 @@ public class Day09
         }
         return blocks;
     }
+
     public static void moveBlocks(ArrayList<String> blocks){
         for (int i = blocks.size() - 1; i >= 0; i--){
             String current = blocks.get(i);
@@ -52,10 +55,42 @@ public class Day09
             }
         }
     }
+    public static void moveBlocksPartTwo(ArrayList<String> blocks){
+        String current = blocks.getLast();
+        int blockCount = 0;
+        int spaceCount = 0;
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i = blocks.size() - 1; i >= 0; i--){
+            if (current.equals(blocks.get(i))){
+                indexes.add(i);
+                blockCount++;
+            }
+            else{
+                for (int j = 0; j <= i; j++){
+                    if (blocks.get(j).equals(".")) spaceCount++;
+                    else spaceCount = 0;
+                    if (spaceCount == blockCount){
+                        for (int k = j - spaceCount + 1; k <= j; k++){
+                            blocks.set(k, current);
+                        }
+                        for (int index : indexes){
+                            blocks.set(index, "-1");
+                        }
+                        spaceCount = 0;
+                        break;
+                    }
+                }
+                current = blocks.get(i);
+                blockCount = 1;
+                indexes.clear();
+                indexes.add(i);
+            }
+        }
+    }
     public static long calculateCheckSum(ArrayList<String> blocks){
         long checkSum = 0;
         for (int i = 0; i < blocks.size(); i++){
-            if (!blocks.get(i).equals(".")){
+            if (!blocks.get(i).equals(".") && !blocks.get(i).equals("-1")){
                 int id = Integer.parseInt(blocks.get(i));
                 checkSum += (id * i);
             }

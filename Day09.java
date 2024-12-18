@@ -74,7 +74,7 @@ public class Day09{
                             blocks.set(k, current);
                         }
                         for (int index : indexes){
-                            blocks.set(index, "-1");
+                            blocks.set(index, ".");
                         }
                         spaceCount = 0;
                         break;
@@ -90,7 +90,7 @@ public class Day09{
     public static long calculateCheckSum(ArrayList<String> blocks){
         long checkSum = 0;
         for (int i = 0; i < blocks.size(); i++){
-            if (!blocks.get(i).equals(".") && !blocks.get(i).equals("-1")){
+            if (!blocks.get(i).equals(".")){
                 int id = Integer.parseInt(blocks.get(i));
                 checkSum += (id * i);
             }
